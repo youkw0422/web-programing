@@ -1,86 +1,67 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
-    <title>7장 실습-Flexbox변환</title>
-    <style>
-        .container {
-            width: 1080px;
-            margin: 0 auto 8px auto;
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-        }
-
-        .container.header {
-            justify-content: flex-start;
-        }
-
-        .left {
-            width: 740px;
-            height: 428px;
-            background-color: red;
-        }
-        .right {
-            width: 332px;
-            height: 428px;
-            background-color: blue;
-        }
-
-        ul.gnb {
-            display: flex; 
-            padding: 8px 0;
-            margin: 0;
-            background-color: green;
-            list-style-type: none;
-            gap: 16px; 
-        }
-
-        ul.rank {
-            display: flex;
-            padding: 8px 0;
-            margin: 0;
-            background-color: yellow;
-            list-style-type: none;
-        }
-
-        .footer {
-            width: 100%;
-            height: 80px;
-            background-color: yellow;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9장 과제</title>
 </head>
+
 <body>
-    <div class="container header">
-        <h1>Logo</h1>
-    </div>
-    <div class="container">
-        <ul class="gnb">
-            <li>메일</li>
-            <li>카페</li>
-            <li>블로그</li>
-            <li>쇼핑</li>
-            <li>사전</li>
-            <li>뉴스</li>
-            <li>증권</li>
-            <li>부동산</li>
-            <li>지도</li>
-        </ul>
-        <ul class="rank">
-            <li>실시간 검색 순위</li>
-        </ul>
-    </div>
-    <div class="container">
-        <div class="left"></div>
-        <div class="right"></div>
-    </div>
-    <div class="container">
-        <div class="left"></div>
-        <div class="right"></div>
-    </div>
-    <div class="container">
-        <div class="footer"></div>
-    </div>
+
+    <script>
+        //9-16
+        const cmInput = prompt("변환할 센티미터(cm)를 입력하세요:");
+
+        if (cmInput !== null && cmInput !== "") {
+            const cm = parseFloat(cmInput);
+
+            const totalInches = cm / 2.54;
+            const feet = Math.floor(totalInches / 12);
+            const inches = (totalInches % 12).toFixed(2);
+
+            alert(`${cm}cm는 약 ${feet}피트 ${inches}인치입니다.`);
+        }
+        //9-17
+        const radius = prompt("원기둥 밑면의 반지름을 입력하세요 (cm):");
+        const height = prompt("원기둥의 높이를 입력하세요 (cm):");
+        const r = parseFloat(radius);
+        const h = parseFloat(height);
+
+        if (isNaN(r) || isNaN(h) || r <= 0 || h <= 0) {
+            alert("올바른 숫자 값을 입력해주세요.");
+        } else {
+            const volume = (r * r * Math.PI) * h;
+            alert(`원기둥의 부피는 약 ${volume.toFixed(2)}cm³입니다.`);
+        }
+        //9-18
+        let input = prompt("입력해주세요", "입력");
+        let num = parseInt(input);
+
+        if (isNaN(num) || num < 1000 || num > 9999) {
+            alert("네 자리 정수를 입력해야 정확한 결과를 볼 수 있어요!");
+        } else {
+
+            let thousands = parseInt(num / 1000);
+            let hundreds = parseInt(num / 100) % 10;
+            let tens = parseInt(num / 10) % 10;
+            let ones = num % 10;
+
+            console.log("천의 자리:", thousands);
+            console.log("백의 자리:", hundreds);
+            console.log("십의 자리:", tens);
+            console.log("일의 자리:", ones);
+
+            alert(
+                "천의 자리: " + thousands + "\n" +
+                "백의 자리: " + hundreds + "\n" +
+                "십의 자리: " + tens + "\n" +
+                "일의 자리: " + ones
+            );
+        }
+
+    </script>
+
 </body>
+
 </html>
