@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dom실습</title>
+    <style>
+        #image {
+            border: 1px dashed #ccc;
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>이미지 속성 변경</h1>
+    <img id="image" alt="이미지가 여기에 표시됨">
+    <br><br>
+    <button id="imageButton">이미지 보이기</button>
+
+    <script>
+        const myimage = document.getElementById('image');
+        const mybutton = document.getElementById('imageButton');
+
+        mybutton.addEventListener('click', function () {
+            myimage.src = "https://placehold.co/300x200";
+            myimage.width = 300;
+            myimage.height = 200;
+        });
+    </script>
+
+</body>
+
+</html>

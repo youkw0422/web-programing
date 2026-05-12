@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dom실습</title>
+</head>
+
+<body>
+    <h1 id='title'>제목</h1>
+    <button id="changeButton">제목 변경</button>
+
+    <script>
+        const titleElement = document.getElementById('title');
+        const btn1 = document.getElementById('changeButton');
+
+        btn1.addEventListener('click', function () {
+            titleElement.textContent = "Javascript로 제목을 바꿨습니다.";
+        });
+    </script>
+</body>
+
+</html>
