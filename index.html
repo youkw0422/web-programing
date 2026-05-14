@@ -3,47 +3,65 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Dom실습</title>
-    <style>
-        #image {
-            border: 1px dashed #ccc;
-            display: block;
-            margin-bottom: 10px;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9장 과제</title>
 </head>
 
 <body>
-    <h1 id='title'>제목</h1>
-    <button id="changeButton">제목 변경</button>
-    <button id="changestyle">스타일 변경</button>
-
-    <h1>이미지 속성 변경</h1>
-    <img id="image" alt="이미지가 여기에 표시됨">
-    <br><br>
-    <button id="imageButton">이미지 보이기</button>
 
     <script>
-        const titleElement = document.getElementById('title');
-        const btn1 = document.getElementById('changeButton');
-        const btn2 = document.getElementById('changestyle')
-        const myimage = document.getElementById('image');
-        const mybutton = document.getElementById('imageButton');
+        //9-16
+        const cmInput = prompt("변환할 센티미터(cm)를 입력하세요:");
 
-        btn1.addEventListener('click', function () {
-            titleElement.textContent = "Javascript로 제목을 바꿨습니다.";
-        });
-        btn2.addEventListener('click', function () {
-            titleElement.style.color = "white";
-            titleElement.style.backgroundColor = "blue";
-            titleElement.style.padding = "10px";
-        });
-        mybutton.addEventListener('click', function () {
-            myimage.src = "https://placehold.co/300x200";
-            myimage.width = 300;
-            myimage.height = 200;
-        });
+        if (cmInput !== null && cmInput !== "") {
+            const cm = parseFloat(cmInput);
+
+            const totalInches = cm / 2.54;
+            const feet = Math.floor(totalInches / 12);
+            const inches = (totalInches % 12).toFixed(2);
+
+            alert(`${cm}cm는 약 ${feet}피트 ${inches}인치입니다.`);
+        }
+        //9-17
+        const radius = prompt("원기둥 밑면의 반지름을 입력하세요 (cm):");
+        const height = prompt("원기둥의 높이를 입력하세요 (cm):");
+        const r = parseFloat(radius);
+        const h = parseFloat(height);
+
+        if (isNaN(r) || isNaN(h) || r <= 0 || h <= 0) {
+            alert("올바른 숫자 값을 입력해주세요.");
+        } else {
+            const volume = (r * r * Math.PI) * h;
+            alert(`원기둥의 부피는 약 ${volume.toFixed(2)}cm³입니다.`);
+        }
+        //9-18
+        let input = prompt("입력해주세요", "입력");
+        let num = parseInt(input);
+
+        if (isNaN(num) || num < 1000 || num > 9999) {
+            alert("네 자리 정수를 입력해야 정확한 결과를 볼 수 있어요!");
+        } else {
+
+            let thousands = parseInt(num / 1000);
+            let hundreds = parseInt(num / 100) % 10;
+            let tens = parseInt(num / 10) % 10;
+            let ones = num % 10;
+
+            console.log("천의 자리:", thousands);
+            console.log("백의 자리:", hundreds);
+            console.log("십의 자리:", tens);
+            console.log("일의 자리:", ones);
+
+            alert(
+                "천의 자리: " + thousands + "\n" +
+                "백의 자리: " + hundreds + "\n" +
+                "십의 자리: " + tens + "\n" +
+                "일의 자리: " + ones
+            );
+        }
+
     </script>
+
 </body>
 
 </html>
