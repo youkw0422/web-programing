@@ -1,67 +1,770 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>9장 과제</title>
+    <title>9조 도서 검색 페이지</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Malgun Gothic', sans-serif;
+        }
+
+        body {
+            background-color: #f5f6f7;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .webpage {
+            width: 100%;
+            max-width: 768px;
+            background-color: #ffffff;
+            border: 1px solid #dcdcdc;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .top-bar {
+            display: flex;
+            background-color: #000000;
+            align-items: center;
+            height: 50px;
+            padding: 0 15px;
+            justify-content: space-between;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 25px;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .project-tt {
+            color: white;
+            font-weight: normal;
+            font-size: 16px;
+        }
+
+        .skyblue-area {
+            background-color: #79bdf2;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            padding: 30px 25px;
+        }
+
+        .search-area {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #ffffff;
+            border-radius: 25px;
+            padding: 5px 15px;
+            width: 90%;
+        }
+
+        .search-select {
+            border: none;
+            outline: none;
+            font-size: 14px;
+            font-weight: bold;
+            background: transparent;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .search-input {
+            border: none;
+            outline: none;
+            flex-grow: 1;
+            padding: 5px;
+        }
+
+        .search-button {
+            background-color: #79bdf2;
+            color: #ffffff;
+            border: none;
+            padding: 4px 15px;
+            font-size: 13px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .book-kind {
+            display: flex;
+            gap: 20px;
+            margin-left: 110px;
+            margin-bottom: 25px;
+        }
+
+        .book-kind a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+        
+        .book-kind a.active, .book-kind a:hover {
+            color: #004ba0;
+            text-decoration: underline;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .new-books-box {
+            width: 49%;
+            background-color: #ffffff;
+            border-radius: 15px;
+            min-height: 130px;
+            padding: 15px;
+        }
+
+        .new-books {
+            display: flex;
+            gap: 8px;
+        }
+
+        .box-title {
+            font-size: 14px;
+            color: #0076df;
+            font-weight: bold;
+            margin-bottom: 12px;
+            border-left: 3px solid #0076df;
+            padding-left: 6px;
+        }
+
+        .small-gray-box {
+            flex: 1;
+            background-color: lightgray;
+            height: 90px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+
+        .small-gray-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background-color: #ffffff;
+        }
+
+        .notice {
+            font-weight: normal;
+            font-size: 13px;
+            color: #333;
+            line-height: 1.5;
+        }
+        .Recommend-book {
+            padding: 20px 20px 5px 20px;
+        }
+
+        .large-box-area {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding: 15px;
+        }
+        .large-box {
+            background-color: #e7e7e7;
+            height: 335px; /* 추천 버튼 공간 확보를 위해 살짝 늘림 */
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #eaeaea;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .large-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.12);
+        }
+        /*이미지 테두리 부분*/
+        .book-img-container {
+            width: 100%;
+            height: 180px; /* 추천 공간 확보를 위해 비율 조정 */
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+            padding: 10px 0;
+        }
+
+        .large-box img {
+            height: 100%;
+            width: auto;
+            max-width: 90%;
+            object-fit: contain;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+        }
+
+        .book-info-info {
+            padding: 12px 10px 8px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            background-color: #ffffff;
+            flex-grow: 1;
+        }
+
+        .book-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #222;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        /* 저자 및 출판사 스타일 */
+        .book-meta {
+            font-size: 11px;
+            color: #666;
+        }
+
+        /* 추천 버튼 스타일 추가 */
+        .like-container {
+            margin-top: auto;
+            display: flex;
+            justify-content: flex-end;
+            padding-top: 4px;
+        }
+
+        .like-button {
+            background-color: #fff0f1;
+            border: 1px solid #ffa3a6;
+            color: #ff4d4f;
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            transition: background 0.2s;
+        }
+
+        .like-button:hover {
+            background-color: #ffd8d9;
+        }
+
+        /*결과 없을때 나오는 화면*/
+        .no-result {
+            grid-column: span 3;
+            text-align: center;
+            color: #999;
+            padding: 40px 0;
+            font-size: 14px;
+        }
+        /*--------------------사이드 메뉴 부분-------------------*/
+        .menu-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .side-menu {
+            position: absolute;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 101;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            transition: left 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .side-menu.active {
+            left: 0;
+        }
+
+        .side-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        /* 사이드 메뉴 닫기 버튼  */
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        /* 사이드 메뉴 내부 링크 리스트 */
+        .side-menu-list {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .side-menu-list li a {
+            display: block;
+            padding: 15px 20px;
+            color: #333333;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s;
+        }
+        /*메뉴 마우스 올렸을때 효과*/
+        .side-menu-list li a:hover {
+            background-color: #f5f6f7;
+            color: #0076df;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="webpage">
+        <div class="menu-overlay" id="menuOverlay"></div>
+
+        <div class="side-menu" id="sideMenu">
+            <div class="side-menu-header">
+                <h3>전체 메뉴</h3>
+                <button type="button" class="close-btn" id="closeBtn">&times;</button>
+            </div>
+            <ul class="side-menu-list">
+                <li><a href="#" id="sideMenuHome">홈으로</a></li>
+                <li><a href="#" class="side-category-btn" data-category="domestic">국내도서</a></li>
+                <li><a href="#" class="side-category-btn" data-category="international">해외도서</a></li>
+                <li><a href="#" class="side-category-btn" data-category="ebook">eBook</a></li>
+                <li><a href="#">공지사항</a></li>
+                <li><a href="#">마이페이지</a></li>
+            </ul>
+        </div>
+
+        <div class="top-bar">
+            <button type="button" class="menu-btn" id="menuBtn">☰</button>
+            <h3 class="project-tt" id="logoTitle" style="cursor:pointer;">9조 도서 검색 페이지</h3>
+            <div class="empty-area"></div>
+        </div>
+
+        <div class="skyblue-area">
+            <div class="search-area">
+                <div class="search-bar">
+                    <select class="search-select" id="searchFilter">
+                        <option value="title">도서명</option>
+                        <option value="author">저자명</option>
+                        <option value="publisher">출판사</option>
+                    </select>
+                    <input type="search" placeholder="도서명을 입력하세요." class="search-input" id="searchInput">
+                    <button class="search-button" id="searchButton">검색</button>
+                </div>
+            </div>
+
+            <div class="book-kind" id="categoryTabArea">
+                <a href="#" class="category-btn" data-category="domestic">국내도서</a>
+                <a href="#" class="category-btn" data-category="international">해외도서</a>
+                <a href="#" class="category-btn" data-category="ebook">ebook</a>
+            </div>
+
+            <div class="container">
+                <div class="new-books-box">
+                    <h3 class="box-title">신상도서</h3>
+                    <div class="new-books" id="newBooksArea">
+                    </div>
+                </div>
+
+                <div class="new-books-box">
+                    <h3 class="box-title">공지사항</h3>
+                    <div class="notice">
+                        - 9조 도서관 이용 규칙 안내<br>
+                        - 신착 도서 입고 지연 공지<br>
+                        - 5월 독서의 달 이벤트 안내
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="Recommend-area">
+            <h2 class="Recommend-book" id="recommendTitle">이달의 추천 도서</h2>
+            <div class="large-box-area" id="bookGridArea">
+            </div>
+        </div>
+    </div>
 
     <script>
-        //9-16
-        const cmInput = prompt("변환할 센티미터(cm)를 입력하세요:");
+        // 원본 기초 데이터 구조 (최초 1회만 사용됨)
+        const DEFAULT_BOOK_DATA = [
+            {
+                id: 1,
+                title: "불편한 편의점",
+                author: "김호연",
+                publisher: "나무옆의자",
+                category: "domestic",
+                img: "https://image.aladin.co.kr/product/26942/84/cover500/k582730818_1.jpg",
+                url: "https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=269428498",
+                likes: 0
+            },
+            {
+                id: 2,
+                title: "달러구트 꿈 백화점",
+                author: "이미예",
+                publisher: "팩토리나인",
+                category: "domestic",
+                img: "https://image.aladin.co.kr/product/24512/70/cover500/k392630952_2.jpg",
+                url: "https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=245127051",
+                likes: 0
+            },
+            {
+                id: 3,
+                title: "미드나잇 라이브러리",
+                author: "매트 헤이그",
+                publisher: "인플루엔셜",
+                category: "international",
+                img: "https://image.aladin.co.kr/product/26987/37/cover500/s622931315_1.jpg",
+                url: "https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=269873776",
+                likes: 0
+            },
+            {
+                id: 4,
+                title: "어린 왕자",
+                author: "생텍쥐페리",
+                publisher: "더스토리",
+                category: "international",
+                img: "https://image.aladin.co.kr/product/25184/75/cover500/8931021291_1.jpg",
+                url: "https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=251847567",
+                likes: 0
+            },
+            {
+                id: 5,
+                title: "모던 자바스크립트",
+                author: "이웅모",
+                publisher: "위키북스",
+                category: "ebook",
+                img: "https://image.aladin.co.kr/product/25155/25/cover500/k282633473_1.jpg",
+                url: "https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=251552545",
+                likes: 0
+            },
+            {
+                id: 6,
+                title: "생각의 역사 I",
+                author: "피터 왓슨",
+                publisher: "들녘",
+                category: "domestic",
+                img: "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788975278365.jpg",
+                url: "https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=4310657",
+                likes: 0
+            }
+        ];
 
-        if (cmInput !== null && cmInput !== "") {
-            const cm = parseFloat(cmInput);
+        // 로컬스토리지 제어를 위해 가변형 변수로 선언
+        let BOOK_DATA = [];
 
-            const totalInches = cm / 2.54;
-            const feet = Math.floor(totalInches / 12);
-            const inches = (totalInches % 12).toFixed(2);
+        // 신상도서 주소로 이미지만 불러오기
+        const NEW_BOOK_IMGS = [
+            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788967822637.jpg",
+            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791167553300.jpg",
+            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791172541200.jpg"
+        ];
 
-            alert(`${cm}cm는 약 ${feet}피트 ${inches}인치입니다.`);
+        // DOM 요소들
+        const bookGridArea = document.getElementById('bookGridArea');
+        const newBooksArea = document.getElementById('newBooksArea');
+        const searchInput = document.getElementById('searchInput');
+        const searchFilter = document.getElementById('searchFilter');
+        const searchButton = document.getElementById('searchButton');
+        const recommendTitle = document.getElementById('recommendTitle');
+        const menuBtn = document.getElementById('menuBtn');
+        const sideMenu = document.getElementById('sideMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const closeBtn = document.getElementById('closeBtn');
+        const logoTitle = document.getElementById('logoTitle');
+        const sideMenuHome = document.getElementById('sideMenuHome');
+
+        // 사이드바 메뉴 함수
+        function openMenu() {
+            sideMenu.classList.add('active');
+            menuOverlay.classList.add('active');
         }
-        //9-17
-        const radius = prompt("원기둥 밑면의 반지름을 입력하세요 (cm):");
-        const height = prompt("원기둥의 높이를 입력하세요 (cm):");
-        const r = parseFloat(radius);
-        const h = parseFloat(height);
-
-        if (isNaN(r) || isNaN(h) || r <= 0 || h <= 0) {
-            alert("올바른 숫자 값을 입력해주세요.");
-        } else {
-            const volume = (r * r * Math.PI) * h;
-            alert(`원기둥의 부피는 약 ${volume.toFixed(2)}cm³입니다.`);
+        //닫는거
+        function closeMenu() {
+            sideMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
         }
-        //9-18
-        let input = prompt("입력해주세요", "입력");
-        let num = parseInt(input);
+        
+        menuBtn.addEventListener('click', openMenu);
+        closeBtn.addEventListener('click', closeMenu);
+        menuOverlay.addEventListener('click', closeMenu);
 
-        if (isNaN(num) || num < 1000 || num > 9999) {
-            alert("네 자리 정수를 입력해야 정확한 결과를 볼 수 있어요!");
-        } else {
-
-            let thousands = parseInt(num / 1000);
-            let hundreds = parseInt(num / 100) % 10;
-            let tens = parseInt(num / 10) % 10;
-            let ones = num % 10;
-
-            console.log("천의 자리:", thousands);
-            console.log("백의 자리:", hundreds);
-            console.log("십의 자리:", tens);
-            console.log("일의 자리:", ones);
-
-            alert(
-                "천의 자리: " + thousands + "\n" +
-                "백의 자리: " + hundreds + "\n" +
-                "십의 자리: " + tens + "\n" +
-                "일의 자리: " + ones
-            );
+        // 로컬 스토리지 데이터 로드 및 초기화 함수
+        function loadStorageData() {
+            const localData = localStorage.getItem('9team_books');
+            if (localData) {
+                BOOK_DATA = JSON.parse(localData);
+            } else {
+                // 저장된 스토리지 기록이 없으면 초기 데이터 세팅 후 저장
+                BOOK_DATA = [...DEFAULT_BOOK_DATA];
+                localStorage.setItem('9team_books', JSON.stringify(BOOK_DATA));
+            }
         }
 
+        // 데이터가 변경되었을 때 로컬 스토리지 갱신 함수
+        function saveStorageData() {
+            localStorage.setItem('9team_books', JSON.stringify(BOOK_DATA));
+        }
+
+        // 페이지 초기 로딩
+        function initPage() {
+            loadStorageData(); // 스토리지 로드 추가
+
+            newBooksArea.innerHTML = NEW_BOOK_IMGS.map(imgUrl => `
+                <div class="small-gray-box">
+                    <img src="${imgUrl}" alt="신상도서">
+                </div>
+            `).join('');
+
+            resetToHome();//기본 홈화면으로 돌아가는거
+        }
+
+        // 초기 홈 화면 상태로 되돌리는 함수 (전체보기 + 추천수 내림차순 정렬)
+        function resetToHome() {
+            searchInput.value = "";
+            recommendTitle.innerText = "이달의 추천 도서";
+            removeActiveTabs();
+            
+            // 홈 화면에서는 노출 전 추천수 기준으로 먼저 정렬합니다.
+            const sortedData = [...BOOK_DATA].sort((a, b) => b.likes - a.likes);
+            displayBooks(sortedData);
+        }
+
+        // 모든 탭 선택 하이라이트 제거 함수
+        function removeActiveTabs() {
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+        }
+
+        // 도서 목록 화면에 그리는 함수
+        function displayBooks(books) {
+            if (books.length === 0) {
+                bookGridArea.innerHTML = `<div class="no-result">일치하는 도서 검색 결과가 없습니다. 😥</div>`;
+                return;
+            }
+
+            // 도서 리스트의 박스에 내용 주입 (추천 버튼 추가 및 구조 수정)
+            bookGridArea.innerHTML = books.map(book => `
+            <a href="${book.url}" target="_blank" class="large-box" data-id="${book.id}">
+                <div class="book-img-container">
+                    <img src="${book.img}" alt="${book.title}">
+                </div>
+                <div class="book-info-info">
+                    <div class="book-title" title="${book.title}">${book.title}</div>
+                    <div class="book-meta">저자: ${book.author}</div>
+                    <div class="book-meta">출판: ${book.publisher}</div>
+                    <div class="like-container">
+                        <button type="button" class="like-button">❤️ 추천 <span>${book.likes}</span></button>
+                    </div>
+                </div>
+            </a>
+            `).join('');
+
+            // 화면을 새로 그릴 때마다 추천 클릭 이벤트 리스너를 다시 바인딩합니다.
+            bindLikeEvents();
+        }
+
+        // 추천 기능 이벤트 리스너 함수 추가
+        function bindLikeEvents() {
+            const cards = document.querySelectorAll('.large-box');
+            
+            cards.forEach(card => {
+                const bookId = parseInt(card.getAttribute('data-id'));
+                const likeBtn = card.querySelector('.like-button');
+                const countSpan = likeBtn.querySelector('span');
+
+                likeBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation(); // 알라딘 외부 새창 링크 버블링 차단! 매우 중요.
+
+                    // 메인 데이터베이스 원본 배열 객체 찾기
+                    const targetBook = BOOK_DATA.find(b => b.id === bookId);
+                    if (targetBook) {
+                        // 추천수 1 증가
+                        targetBook.likes++; 
+                        countSpan.textContent = targetBook.likes;
+                        
+                        // JSON 스토리지 동기화로 저장
+                        saveStorageData();
+
+                        // 추천수가 변했으므로 유저의 시점에 맞춰 실시간 재정렬 구현
+                        // 현재 화면이 카테고리 상태인지, 검색 상태인지 구별하여 정렬 갱신 처리
+                        refreshCurrentView();
+                    }
+                });
+            });
+        }
+
+        // 추천 버튼 클릭 후 현재 화면 상황에 맞춰 순서를 즉시 재정렬해주는 제어 함수
+        function refreshCurrentView() {
+            const activeTab = document.querySelector('.category-btn.active');
+            const keyword = searchInput.value.trim().toLowerCase();
+
+            let dataset = [...BOOK_DATA];
+
+            // 카테고리가 켜져 있다면 필터 유지
+            if (activeTab) {
+                const currentCategory = activeTab.getAttribute('data-category');
+                dataset = dataset.filter(book => book.category === currentCategory);
+            }
+
+            // 검색어 입력 상태라면 검색 조건 필터 유지
+            if (keyword !== "") {
+                const filterValue = searchFilter.value;
+                dataset = dataset.filter(book => {
+                    if (filterValue === 'title') return book.title.toLowerCase().includes(keyword);
+                    if (filterValue === 'author') return book.author.toLowerCase().includes(keyword);
+                    if (filterValue === 'publisher') return book.publisher.toLowerCase().includes(keyword);
+                    return false;
+                });
+            }
+
+            // 실시간 추천순 내림차순 정렬 후 렌더링
+            dataset.sort((a, b) => b.likes - a.likes);
+            displayBooks(dataset);
+        }
+
+        // 카테고리별 필터링 기능 함수
+        function filterCategory(categoryName, categoryText) {
+            removeActiveTabs();
+            
+            // 상단 탭에 활성화 디자인(Underline) 추가
+            const targetTab = document.querySelector(`.category-btn[data-category="${categoryName}"]`);
+            if(targetTab) targetTab.classList.add('active');
+
+            // 조건에 맞는 카테고리 도서만 필터링한 뒤 '추천순' 정렬
+            const filtered = BOOK_DATA
+                .filter(book => book.category === categoryName)
+                .sort((a, b) => b.likes - a.likes);
+            
+            recommendTitle.innerText = `📚 ${categoryText} 목록`;
+            displayBooks(filtered);
+        }
+
+        // [이벤트] 메인 화면 카테고리 탭 클릭 시
+        document.querySelectorAll('.category-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const categoryName = this.getAttribute('data-category');
+                const categoryText = this.innerText;
+                filterCategory(categoryName, categoryText);
+            });
+        });
+
+        // [이벤트] 사이드 메뉴 바 내부의 카테고리 클릭 시
+        document.querySelectorAll('.side-category-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const categoryName = this.getAttribute('data-category');
+                const categoryText = this.innerText;
+                filterCategory(categoryName, categoryText);
+                closeMenu(); // 클릭 후 사이드바 닫기
+            });
+        });
+
+        // [이벤트] 로고 타이틀 및 사이드메뉴 '홈으로' 클릭 시 전체 리스트 복원
+        logoTitle.addEventListener('click', resetToHome);
+        sideMenuHome.addEventListener('click', function(e) {
+            e.preventDefault();
+            resetToHome();
+            closeMenu();
+        });
+
+        // 검색 기능
+        function performSearch() {
+            const keyword = searchInput.value.trim().toLowerCase(); // 앞뒤 공백 제거 및 소문자 변환
+            const filterValue = searchFilter.value; // 'title', 'author', 'publisher' 중 현재 조건값 추출
+
+            const activeTab = document.querySelector('.category-btn.active');
+            const currentCategory = activeTab ? activeTab.getAttribute('data-category') : null;
+
+            if (keyword === "") {
+                resetToHome();
+                return;
+            }
+
+            const searchTargetData = currentCategory 
+                ? BOOK_DATA.filter(book => book.category === currentCategory)
+                : BOOK_DATA;
+
+            // 3. 지정된 데이터 안에서 키워드가 포함된 글자가 있는지 걸러내기
+            const filteredBooks = searchTargetData.filter(book => {
+                if (filterValue === 'title') return book.title.toLowerCase().includes(keyword);
+                if (filterValue === 'author') return book.author.toLowerCase().includes(keyword);
+                if (filterValue === 'publisher') return book.publisher.toLowerCase().includes(keyword);
+                return false;
+            });
+
+            // 검색 결과 데이터도 화면에 그리기 전 추천순 내림차순 정렬 처리
+            filteredBooks.sort((a, b) => b.likes - a.likes);
+
+            // 4. 타이틀 텍스트 바꾸기 (카테고리 안에서 검색했으면 카테고리 이름도 표시)
+            if (currentCategory) {
+                const categoryText = activeTab.innerText;
+                recommendTitle.innerText = `🔍 [${categoryText}] 내 '${keyword}' 검색 결과`;
+            } else {
+                recommendTitle.innerText = `🔍 '${keyword}' 검색 결과`;
+            }
+
+            displayBooks(filteredBooks); // 필터 처리된 검색 결과 뷰 생성
+        }
+
+        // 검색 버튼 클릭 시 함수 작동
+        searchButton.addEventListener('click', performSearch);
+        // 입력 도중 엔터(Enter) 키를 떼었을 때(keyup)도 검색이 작동되도록 처리
+        searchInput.addEventListener('keyup', function (event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // 필터 선택이 바뀔 때마다 자동 변경
+        searchFilter.addEventListener('change', function () {
+            const selectedText = searchFilter.options[searchFilter.selectedIndex].text;// '도서명', '저자명' 등 추출
+            searchInput.placeholder = `${selectedText}를 입력하세요.`;
+        });
+
+        // 웹 브라우저가 화면을 모두 다 읽어서 준비가 완료, 구동 시작
+        window.onload = initPage;
     </script>
-
 </body>
 
 </html>
